@@ -5,14 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-/**
- * Created by Kyathab on 2015-12-17.
- */
-public class IntervallXLabels extends TextView {
+public class IntervallXLabels extends View {
 
     private static final String TAG = "PointCircle";
     private int XIntervall;
@@ -44,10 +41,12 @@ public class IntervallXLabels extends TextView {
         this.x = x;
         this.y = y;
 
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(20);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
-        paint.setTextSize(22);
+        paint.setTextSize(40);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setAntiAlias(true);
 
         this.offSetFromTop = offSetFromTop;
         this.offSetFromRight = offSetFromRight;
@@ -73,11 +72,8 @@ public class IntervallXLabels extends TextView {
         int cx = offSetFromLeft + (x * XIntervall);
         int cy = (metrics.heightPixels - offSetFromBottom);
 
-        if (x == 0) {
-            canvas.drawText(Integer.toString(x), cy - 100 , cx, paint);
-        } else {
-            canvas.drawText(Integer.toString(x), cy - 100, cx, paint);
-        }
+        Log.i(TAG , "Trying to draw IntervallXLabel value = " + x);
+        canvas.drawText(Integer.toString(x), cx, cy + 60, paint);
     }
 
     @Override
