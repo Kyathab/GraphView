@@ -1,21 +1,19 @@
 package com.example.kyathab.graphview.GraphView.Views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-
-import com.example.kyathab.graphview.GraphView.GraphViewFragment;
+import android.widget.TextView;
 
 /**
- * Created by Kyathab on 2015-12-10.
+ * Created by Kyathab on 2015-12-17.
  */
-public class PointCircle extends View {
+public class IntervallXLabels extends TextView {
+
     private static final String TAG = "PointCircle";
     private int XIntervall;
     private int YIntervall;
@@ -38,24 +36,18 @@ public class PointCircle extends View {
     private int parentWidth;
     private int parentHeight;
 
-    public PointCircle(Context context, int x, int y,
-                       int thickness, int color,
-                       int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
-                       int maxX, int maxY, int minX, int minY) {
+    public IntervallXLabels(Context context, int x, int y,
+                            int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
+                            int maxX, int maxY, int minX, int minY) {
         super(context);
 
         this.x = x;
         this.y = y;
 
-        this.thickness = thickness;
-        paint.setStrokeWidth(thickness);
-
-        if (color != -1) {
-            paint.setColor(color);
-        } else {
-            paint.setColor(Color.BLACK);
-        }
+        paint.setStrokeWidth(10);
+        paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(22);
 
         this.offSetFromTop = offSetFromTop;
         this.offSetFromRight = offSetFromRight;
@@ -66,7 +58,6 @@ public class PointCircle extends View {
         this.maxY = maxY;
         this.minX = minX;
         this.minY = minY;
-
 
         metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -80,17 +71,21 @@ public class PointCircle extends View {
         YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
 
         int cx = offSetFromLeft + (x * XIntervall);
-        int cy = (metrics.heightPixels - offSetFromBottom) - (y * YIntervall);
+        int cy = (metrics.heightPixels - offSetFromBottom);
 
-        canvas.drawCircle(cx, cy, thickness, paint);
+        if (x == 0) {
+            canvas.drawText(Integer.toString(x), cy - 100 , cx, paint);
+        } else {
+            canvas.drawText(Integer.toString(x), cy - 100, cx, paint);
+        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        parentWidth = View.MeasureSpec.getSize(widthMeasureSpec);
+        parentHeight = View.MeasureSpec.getSize(heightMeasureSpec);
         this.setMeasuredDimension(parentWidth, parentHeight);
     }
 }

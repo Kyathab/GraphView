@@ -10,20 +10,22 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.kyathab.graphview.GraphView.GraphViewFragment;
-
 /**
- * Created by Kyathab on 2015-12-10.
+ * Created by Kyathab on 2015-12-11.
  */
-public class PointCircle extends View {
+public class PointLine extends View {
+
     private static final String TAG = "PointCircle";
+
+    private DisplayMetrics metrics;
+    private int parentWidth;
+    private int parentHeight;
     private int XIntervall;
     private int YIntervall;
-    private DisplayMetrics metrics;
+
     private Paint paint = new Paint();
     private int thickness;
-    private Color color;
-    private int x, y;
+    private int color;
 
     //Offsets
     private int offSetFromTop;
@@ -35,27 +37,32 @@ public class PointCircle extends View {
     int maxX, maxY;
     int minX, minY;
 
-    private int parentWidth;
-    private int parentHeight;
+    //Start points and end points
+    private int startX, endX;
+    private int startY, endY;
 
-    public PointCircle(Context context, int x, int y,
-                       int thickness, int color,
-                       int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
-                       int maxX, int maxY, int minX, int minY) {
+    public PointLine(Context context,
+                     int startX, int endX, int startY, int endY,
+                     int thickness, int color,
+                     int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
+                     int maxX, int maxY, int minX, int minY) {
         super(context);
 
-        this.x = x;
-        this.y = y;
+        this.startX = startX;
+        this.endX = endX;
+        this.startY = startY;
+        this.endY = endY;
 
         this.thickness = thickness;
+        this.color = color;
+        this.thickness = thickness;
         paint.setStrokeWidth(thickness);
-
         if (color != -1) {
             paint.setColor(color);
         } else {
             paint.setColor(Color.BLACK);
         }
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Paint.Style.STROKE);
 
         this.offSetFromTop = offSetFromTop;
         this.offSetFromRight = offSetFromRight;
@@ -66,7 +73,6 @@ public class PointCircle extends View {
         this.maxY = maxY;
         this.minX = minX;
         this.minY = minY;
-
 
         metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -79,10 +85,12 @@ public class PointCircle extends View {
         XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
         YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
 
-        int cx = offSetFromLeft + (x * XIntervall);
-        int cy = (metrics.heightPixels - offSetFromBottom) - (y * YIntervall);
+        int graphStartX = offSetFromLeft + (startX * XIntervall);
+        int graphEndX = offSetFromLeft + (endX * XIntervall);
+        int graphStartY = (metrics.heightPixels - offSetFromBottom) - (startY * YIntervall);
+        int graphEndY = (metrics.heightPixels - offSetFromBottom) - (endY * YIntervall);
 
-        canvas.drawCircle(cx, cy, thickness, paint);
+        canvas.drawLine(graphStartX, graphStartY, graphEndX, graphEndY, paint);
     }
 
     @Override
