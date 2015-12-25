@@ -76,11 +76,11 @@ public class PointCircle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
-        YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
+        XIntervall = (parentWidth - (offSetFromLeft + offSetFromRight)) / maxX;
+        YIntervall = (parentHeight - (offSetFromTop + offSetFromBottom)) / maxY;
 
         int cx = offSetFromLeft + (x * XIntervall);
-        int cy = (metrics.heightPixels - offSetFromBottom) - (y * YIntervall);
+        int cy = (parentHeight - offSetFromBottom) - (y * YIntervall);
 
         canvas.drawCircle(cx, cy, thickness, paint);
     }

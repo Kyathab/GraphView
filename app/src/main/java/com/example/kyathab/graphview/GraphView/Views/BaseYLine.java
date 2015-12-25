@@ -41,7 +41,7 @@ public class BaseYLine extends View {
                 + " Screen Width px: " + parentWidth
                 + " Screen Height px: " + parentHeight);
 
-        canvas.drawLine(offSetFromLeft, offSetFromTop, offSetFromLeft, metrics.heightPixels - offSetFromBottom, paint);
+        canvas.drawLine(offSetFromLeft, offSetFromTop, offSetFromLeft, parentHeight - offSetFromBottom, paint);
 
     }
 

@@ -15,6 +15,7 @@ import android.view.WindowManager;
  */
 public class IntervallLineX extends View {
     private static final String TAG = "PointCircle";
+    private int k;
     private int XIntervall;
     private int YIntervall;
     private DisplayMetrics metrics;
@@ -36,13 +37,10 @@ public class IntervallLineX extends View {
     private int parentWidth;
     private int parentHeight;
 
-    public IntervallLineX(Context context, int x, int y,
+    public IntervallLineX(Context context,
                           int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
-                          int maxX, int maxY, int minX, int minY) {
+                          int maxX, int maxY, int minX, int minY, int k) {
         super(context);
-
-        this.x = x;
-        this.y = y;
 
         paint.setStrokeWidth(10);
         paint.setColor(Color.BLACK);
@@ -57,6 +55,7 @@ public class IntervallLineX extends View {
         this.maxY = maxY;
         this.minX = minX;
         this.minY = minY;
+        this.k = k;
 
         metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -67,11 +66,11 @@ public class IntervallLineX extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
-        YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
+        XIntervall = (parentWidth - (offSetFromLeft + offSetFromRight)) / maxX;
+        YIntervall = (parentHeight - (offSetFromTop + offSetFromBottom)) / maxY;
 
-        int cx = offSetFromLeft + (x * XIntervall);
-        int cy = (metrics.heightPixels - offSetFromBottom);
+        int cx = offSetFromLeft + (k * XIntervall);
+        int cy = (parentHeight - offSetFromBottom);
 
         if (x == 0) {
             canvas.drawLine(cx, cy, cx, cy + 20, paint);

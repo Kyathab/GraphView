@@ -3,12 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/label_box"
-        android:background="#ffffff">
-    </RelativeLayout>
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/graph_container"
@@ -17,4 +20,5 @@
         android:background="#ffffff"
         android:layout_below="@id/label_box">
     </FrameLayout>
+
 </RelativeLayout>

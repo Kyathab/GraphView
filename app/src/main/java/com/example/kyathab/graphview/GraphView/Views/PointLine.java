@@ -63,6 +63,7 @@ public class PointLine extends View {
             paint.setColor(Color.BLACK);
         }
         paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
 
         this.offSetFromTop = offSetFromTop;
         this.offSetFromRight = offSetFromRight;
@@ -82,13 +83,13 @@ public class PointLine extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
-        YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
+        XIntervall = (parentWidth - (offSetFromLeft + offSetFromRight)) / maxX;
+        YIntervall = (parentHeight - (offSetFromTop + offSetFromBottom)) / maxY;
 
         int graphStartX = offSetFromLeft + (startX * XIntervall);
         int graphEndX = offSetFromLeft + (endX * XIntervall);
-        int graphStartY = (metrics.heightPixels - offSetFromBottom) - (startY * YIntervall);
-        int graphEndY = (metrics.heightPixels - offSetFromBottom) - (endY * YIntervall);
+        int graphStartY = (parentHeight - offSetFromBottom) - (startY * YIntervall);
+        int graphEndY = (parentHeight - offSetFromBottom) - (endY * YIntervall);
 
         canvas.drawLine(graphStartX, graphStartY, graphEndX, graphEndY, paint);
     }

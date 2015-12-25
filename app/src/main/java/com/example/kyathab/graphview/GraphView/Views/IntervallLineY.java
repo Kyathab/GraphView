@@ -15,8 +15,8 @@ import android.view.WindowManager;
  */
 public class IntervallLineY extends View {
     private static final String TAG = "PointCircle";
-    private int XIntervall;
-    private int YIntervall;
+    private int k;
+    private int intervallsY;
     private DisplayMetrics metrics;
     private Paint paint = new Paint();
     private int thickness;
@@ -35,14 +35,15 @@ public class IntervallLineY extends View {
 
     private int parentWidth;
     private int parentHeight;
+    private int YIntervall;
+    private int XIntervall;
 
-    public IntervallLineY(Context context, int x, int y,
+    public IntervallLineY(Context context,
                           int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
-                          int maxX, int maxY, int minX, int minY) {
+                          int maxX, int maxY, int minX, int minY, int k) {
         super(context);
 
-        this.x = x;
-        this.y = y;
+
 
         paint.setStrokeWidth(10);
         paint.setColor(Color.BLACK);
@@ -57,6 +58,7 @@ public class IntervallLineY extends View {
         this.maxY = maxY;
         this.minX = minX;
         this.minY = minY;
+        this.k = k;
 
         metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -67,11 +69,11 @@ public class IntervallLineY extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
-        YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
+        XIntervall = (parentWidth - (offSetFromLeft + offSetFromRight)) / maxX;
+        YIntervall = (parentHeight - (offSetFromTop + offSetFromBottom)) / maxY;
 
         int cx = offSetFromLeft;
-        int cy = (metrics.heightPixels - offSetFromBottom) - (y * YIntervall);
+        int cy = (parentHeight - offSetFromBottom) - (k * YIntervall);
 
         if(y == 0){
             canvas.drawLine(cx - 20, cy, cx, cy, paint);

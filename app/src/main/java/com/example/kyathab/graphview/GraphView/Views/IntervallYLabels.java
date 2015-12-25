@@ -5,20 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 public class IntervallYLabels extends View {
 
-    private static final String TAG = "PointCircle";
-    private int XIntervall;
     private int YIntervall;
     private DisplayMetrics metrics;
     private Paint paint = new Paint();
-    private int thickness;
-    private Color color;
-    private int x, y;
     private int textSize = 40;
 
     //Offsets
@@ -30,17 +24,15 @@ public class IntervallYLabels extends View {
     //Min/Max X&Y
     int maxX, maxY;
     int minX, minY;
+    private int k;
 
     private int parentWidth;
     private int parentHeight;
 
-    public IntervallYLabels(Context context, int x, int y,
+    public IntervallYLabels(Context context,
                             int offSetFromTop, int offSetFromRight, int offSetFromLeft, int offSetFromBottom,
-                            int maxX, int maxY, int minX, int minY) {
+                            int maxX, int maxY, int minX, int minY, int k) {
         super(context);
-
-        this.x = x;
-        this.y = y;
 
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
@@ -57,6 +49,7 @@ public class IntervallYLabels extends View {
         this.maxY = maxY;
         this.minX = minX;
         this.minY = minY;
+        this.k = k;
 
         metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -66,16 +59,13 @@ public class IntervallYLabels extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        XIntervall = (metrics.widthPixels - (offSetFromLeft + offSetFromRight)) / maxX;
-        YIntervall = (metrics.heightPixels - (offSetFromTop + offSetFromBottom)) / maxY;
+        YIntervall = (parentHeight - (offSetFromTop + offSetFromBottom)) / maxY;
 
         int cx = offSetFromLeft;
-        int cy = (metrics.heightPixels - offSetFromBottom) - (y * YIntervall);
-        paint.measureText(Integer.toString(y));
+        int cy = (parentHeight - offSetFromBottom) - (k * YIntervall);
+        paint.measureText(Integer.toString(k));
 
-
-        Log.i(TAG, "Trying to draw IntervallYLabel value = " + y);
-        canvas.drawText(Integer.toString(y), cx - 60, cy + (textSize / 2) - 5, paint);
+        canvas.drawText(Integer.toString(k), cx - 60, cy + (textSize / 2) - 5, paint);
     }
 
     @Override
